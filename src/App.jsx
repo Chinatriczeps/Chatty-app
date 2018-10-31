@@ -28,10 +28,15 @@ class App extends Component {
     const messages = this.state.messages.concat(smthNew);
     console.log(messages)
     this.setState({messages: messages})
+    this.socket.send(JSON.stringify(smthNew));
   }
 
 
   componentDidMount() {
+    this.socket = new WebSocket('ws://localhost:3001/');
+    // this.socket.addEventListener("message", evt => {
+    //   this.socket.send("new connection");
+    // })
     setTimeout(() => {
       this.setState({loading:false})
     },1000);
