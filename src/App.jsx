@@ -9,41 +9,53 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = { 
-      // loading: true,
-      currentUser: data.currentUser,
-      messages: data.messages
+      loading: true,
+      currentUser: data.currentUser.name,
+      messages: data.messages,
+      newMessage: ''
       };
+
+      this.textEnter = this.textEnter.bind(this);
   }
 
+  textEnter(newMessage) {
+      const smthNew = {
+        id: this.state.messages.length + 1,
+        username: this.state.currentUser,
+        content: newMessage
+      }
+      console.log(smthNew);
+    const messages = this.state.messages.concat(smthNew);
+    console.log(messages)
+    this.setState({messages: messages})
+  }
+
+
   componentDidMount() {
-    // setTimeout(() => {
-    //   this.setState({loading:false})
-    // },1000);
     setTimeout(() => {
-      console.log("Simulating incoming message");
-      // Add a new message to the list of messages in the data store
+      this.setState({loading:false})
+    },1000);
+    setTimeout(() => {
       const newMessage = {id: 3, username: "Michelle", content: "Hello there!"};
       const messages = this.state.messages.concat(newMessage);
-      // Update the state of the app component.
-      // Calling setState will trigger a call to render() in App and all child components.
       this.setState({messages: messages})
-    }, 3000);
+    }, 1000);
   }
   
   render() {
-    // if(this.state.loading) {
-    //   return <h1> Loading... </h1>
-    // } else {
+    if(this.state.loading) {
+      return <h1> Loading... </h1>
+    } else {
       return (
         <div>
           <nav className="navbar">
             <a href="/" className="navbar-brand">Chatty</a>
           </nav>
-          <ChatBar chatUser = {this.state.currentUser.name}/>
+          <ChatBar textEnter={this.textEnter} chatUser = {this.state.currentUser}/>
           <MessageList usersMessage = {this.state.messages}/>
         </div> 
       );
     }
-  // }
+  }
 }
 export default App;
