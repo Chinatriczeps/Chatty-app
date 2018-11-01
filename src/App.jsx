@@ -10,9 +10,8 @@ class App extends Component {
     super(props);
     this.state = { 
       loading: true,
-      currentUser: data.currentUser.name,
-      messages: data.messages,
-      newMessage: ''
+      currentUser: {name: "Bob"},
+      messages: []
       };
 
       this.textEnter = this.textEnter.bind(this);
@@ -20,31 +19,29 @@ class App extends Component {
 
   textEnter(newMessage) {
       const smthNew = {
-        id: this.state.messages.length + 1,
-        username: this.state.currentUser,
+        username: this.state.currentUser.name,
         content: newMessage
       }
       console.log(smthNew);
-    const messages = this.state.messages.concat(smthNew);
-    console.log(messages)
-    this.setState({messages: messages})
     this.socket.send(JSON.stringify(smthNew));
   }
 
 
   componentDidMount() {
     this.socket = new WebSocket('ws://localhost:3001/');
-    // this.socket.addEventListener("message", evt => {
-    //   this.socket.send("new connection");
-    // })
+    this.socket.addEventListener("message", message => {
+      const messageContent = JSON.parse(message.data);
+      const newMessage = this.state.messages.concat(messageContent);
+      this.setState({messages: newMessage});
+    })
     setTimeout(() => {
       this.setState({loading:false})
-    },1000);
-    setTimeout(() => {
-      const newMessage = {id: 3, username: "Michelle", content: "Hello there!"};
-      const messages = this.state.messages.concat(newMessage);
-      this.setState({messages: messages})
     }, 1000);
+    // setTimeout(() => {
+    //   const newMessage = {id: 3, username: "Michelle", content: "Hello there!"};
+    //   const messages = this.state.messages.concat(newMessage);
+    //   this.setState({messages: messages})
+    // }, 1000);
   }
   
   render() {
@@ -56,7 +53,7 @@ class App extends Component {
           <nav className="navbar">
             <a href="/" className="navbar-brand">Chatty</a>
           </nav>
-          <ChatBar textEnter={this.textEnter} chatUser = {this.state.currentUser}/>
+          <ChatBar textEnter={this.textEnter} chatUser = {this.state.currentUser.name}/>
           <MessageList usersMessage = {this.state.messages}/>
         </div> 
       );
