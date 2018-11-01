@@ -7,7 +7,7 @@ class MessageList extends Component {
             console.log("🤗 message: ", message)
             return <Message
             key={index}
-            user={message.username}
+            username={message.username}
             content={message.content}/>
         })
         return(

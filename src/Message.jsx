@@ -6,11 +6,8 @@ class Message extends Component {
     return (
       <main className="messages">
       <div className="message">
-        <span className="message-username">{this.props.user}</span>
+        <span className="message-username">{this.props.username}</span>
         <span className="message-content">{this.props.content}</span>
-      </div>
-      <div className="message system">
-        Try better
       </div>
     </main>
     );
