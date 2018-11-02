@@ -47,7 +47,7 @@ changeUser(newUsername) {
   
       let parser = JSON.parse(message.data);
   
-      if (parser.type == "onlineUsers"){
+      if (parser.type === "onlineUsers"){
         this.setState({usersOnline: parser.content})
   
       } else {
@@ -62,7 +62,7 @@ changeUser(newUsername) {
       <div>
         <nav className="navbar">
           <a href="/" className="navbar-brand">Chatty</a>
-        <span className="users-connected">Users Online: {this.state.usersOnline}</span>
+        <span className="users-connected">Users Online: {this.state.usersOnline} </span>
         </nav>
         <MessageList usersMessage = {this.state.messages}/>
         <ChatBar addMessage={this.addMessage} changeUser={this.changeUser} currentUser={this.state.username.name}/>

@@ -32,8 +32,8 @@ wss.on('connection', (ws) => {
  console.log('Client connected');
  
  let usersOnline = ({
-   type: "onlineUsers",
-  content: wss.clients.size
+    type: "onlineUsers",
+    content: wss.clients.size
   }) 
 
   wss.clients.forEach(client => {
